@@ -1,4 +1,4 @@
-package test.Day08.Day11;
+package test.Day11;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
@@ -16,14 +16,15 @@ import java.util.Set;
 public class C02_WindowHandle {
 
 
-WebDriver driver;
+    WebDriver driver;
 
     @BeforeClass
-    public void setup(){
+    public void setup() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
 
     }
 
@@ -54,26 +55,30 @@ WebDriver driver;
         // tum handle degerlerini alip bir set'e koyalim
         Set<String> windowHandleSet = driver.getWindowHandles();
         System.out.println(windowHandleSet);
+
         String windowHandle2 = "";
 
-        for (String each:windowHandleSet
-             ) {
-            if (!each.equals(windowHandle1)){
-                windowHandle2=each;
+        for (String each : windowHandleSet
+        ) {
+            if (!each.equals(windowHandle1)) {
+                windowHandle2 = each;
             }
-
-            // artik yeni sayfaya gecis yapabilirim.
-            driver.switchTo().window(windowHandle2);
-            System.out.println(driver.getTitle());
-            softAssert.assertEquals(driver.getTitle(),"New Window","new window title is not same.");
         }
-//            ● Sayfadaki textin “New Window” olduğunu doğrulayın.
-        WebElement secontPageTextElement = driver.findElement(By.tagName("h3"));
-        softAssert.assertEquals(secontPageTextElement.getText(), "New Windowb", "Text is different!");
 
-//            ● Bir önceki pencereye geri döndükten sonra sayfa başlığının “The Internet” olduğunu doğrulayın.
+        // artik yeni sayfaya gecis yapabilirim.
+        driver.switchTo().window(windowHandle2);
+        System.out.println(driver.getTitle());
+        softAssert.assertEquals(driver.getTitle(), "New Window", "new window title is not same.");
+
+
+        //  Sayfadaki textin “New Window” olduğunu doğrulayın.
+        WebElement secondPageTextElement = driver.findElement(By.tagName("h3"));
+
+
+        //  Bir önceki pencereye geri döndükten sonra sayfa başlığının “The Internet” olduğunu doğrulayın.
+
         driver.switchTo().window(windowHandle1);
-        softAssert.assertEquals(driver.getTitle(), "The Internet", "Title is different!");
+        softAssert.assertEquals(driver.getTitle(),"The Internet","Title is different!");
 
         softAssert.assertAll();
 
@@ -81,7 +86,8 @@ WebDriver driver;
 
     @AfterClass
     public void teardown(){
-        driver.quit();
+
+    driver.quit();
     }
 
 
